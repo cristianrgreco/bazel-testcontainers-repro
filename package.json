@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "docker-compose -f docker-compose.json up --build",
-    "test": "yarn bazelisk test //...",
-    "test:jasmine": "ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json"
+    "test": "DEBUG=testcontainers* yarn bazelisk test //...",
+    "test:jasmine": "DEBUG=testcontainers* ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json"
   },
   "dependencies": {
     "express": "^4.17.1"
@@ -20,7 +20,7 @@
     "jasmine": "^3.6.1",
     "jasmine-core": "^3.6.0",
     "prettier": "^2.1.1",
-    "testcontainers": "^3.4.0",
+    "testcontainers": "4.7.0",
     "ts-node-dev": "^1.0.0-pre.61",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",

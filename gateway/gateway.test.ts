@@ -5,20 +5,16 @@ import axios from 'axios'
 import message from './message'
 
 describe('integration test', () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
+
   it('starts gateway', async () => {
     const filepath = path.join(__dirname, '../')
     const filename = 'docker-compose.json'
     const env = await new DockerComposeEnvironment(filepath, filename).withBuild().up()
-    // make sure server is started
-    await wait(3000)
-    const res = await axios.get('http://localhost:3000')
+    const container = env.getContainer("gateway");
+    const res = await axios.get(`http://${container.getContainerIpAddress()}:${container.getMappedPort(3000)}`)
     expect(res.data.toString()).toEqual(message)
+    await new Promise(resolve => setTimeout(resolve, 200000))
     await env.down()
   })
 })
-
-function wait(ms: number) {
-  return new Promise(res => {
-    setTimeout(() => res(), ms)
-  })
-}
